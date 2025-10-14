@@ -15,6 +15,7 @@
       flex-direction: column;
       align-items: center;
       justify-content: flex-start;
+      overflow: hidden;
       position: relative;
     }
 
@@ -50,37 +51,48 @@
   <script src="https://unpkg.com/@elevenlabs/convai-widget-embed" async></script>
 
   <script>
-    function startCall() {
-      // Remove any existing widget
-      const oldWidget = document.querySelector('elevenlabs-convai');
-      if (oldWidget) oldWidget.remove();
+    function forceCenterWidget() {
+      // Try to access shadow roots repeatedly until widget loads
+      const interval = setInterval(() => {
+        // Find the ElevenLabs web component
+        const widgetEl = document.querySelector('elevenlabs-convai');
+        if (!widgetEl) return;
 
-      // Add the ElevenLabs widget
+        // Access its shadow DOM
+        const shadowRoot = widgetEl.shadowRoot;
+        if (!shadowRoot) return;
+
+        // Find the main container inside shadow DOM
+        const frame = shadowRoot.querySelector('iframe');
+        if (frame) {
+          frame.style.position = "fixed";
+          frame.style.top = "50%";
+          frame.style.left = "50%";
+          frame.style.transform = "translate(-50%, -50%)";
+          frame.style.width = "420px";
+          frame.style.height = "480px";
+          frame.style.borderRadius = "20px";
+          frame.style.zIndex = "99999";
+          frame.style.boxShadow = "0 8px 25px rgba(0,0,0,0.25)";
+          clearInterval(interval);
+        }
+      }, 500);
+    }
+
+    function startCall() {
+      // Remove old widget if exists
+      const old = document.querySelector('elevenlabs-convai');
+      if (old) old.remove();
+
+      // Create new widget
       const widget = document.createElement('elevenlabs-convai');
       widget.setAttribute('agent-id', 'agent_0701k7696sj6fkwr8x3rsea44fj3');
       document.body.appendChild(widget);
 
-      // Wait a moment for it to load, then override its style
-      const observer = new MutationObserver(() => {
-        const widgetFrame = document.querySelector('iframe[src*="elevenlabs"]');
-        if (widgetFrame) {
-          widgetFrame.style.position = "fixed";
-          widgetFrame.style.top = "50%";
-          widgetFrame.style.left = "50%";
-          widgetFrame.style.transform = "translate(-50%, -50%)";
-          widgetFrame.style.width = "420px";
-          widgetFrame.style.height = "480px";
-          widgetFrame.style.borderRadius = "20px";
-          widgetFrame.style.zIndex = "9999";
-          widgetFrame.style.boxShadow = "0 8px 25px rgba(0,0,0,0.25)";
-          observer.disconnect();
-        }
-      });
-
-      observer.observe(document.body, { childList: true, subtree: true });
+      // Try to center it after load
+      forceCenterWidget();
     }
   </script>
 
 </body>
 </html>
-
