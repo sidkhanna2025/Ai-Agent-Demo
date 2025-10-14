@@ -12,17 +12,46 @@
       font-family: "Poppins", sans-serif;
       background: radial-gradient(circle at center, #f8f8ff, #eef0ff);
       display: flex;
-      align-items: center;
-      justify-content: center;
       flex-direction: column;
+      align-items: center;
+      justify-content: flex-start;
       overflow: hidden;
       position: relative;
     }
 
+    /* Move heading to top */
     h1 {
       font-size: 2.5rem;
-      margin-top: 1rem;
       color: #222;
+      margin-top: 50px;
+    }
+
+    /* ElevenLabs popup centered */
+    iframe[src*="elevenlabs.com/widget"],
+    div[id*="elevenlabs-widget-container"] {
+      position: fixed !important;
+      top: 50% !important;
+      left: 50% !important;
+      transform: translate(-50%, -50%) !important;
+      z-index: 10000 !important;
+      width: 420px !important;
+      height: 480px !important;
+      border-radius: 20px !important;
+      box-shadow: 0 8px 25px rgba(0, 0, 0, 0.25) !important;
+    }
+
+    /* Hide default floating button */
+    iframe[src*="elevenlabs.com/widget/button"],
+    div[id*="elevenlabs-widget-button"],
+    [class*="elevenlabs-widget-button"] {
+      display: none !important;
+      visibility: hidden !important;
+    }
+
+    /* Remove old connecting popup */
+    .popup-overlay,
+    .popup-box {
+      display: none !important;
     }
 
     button {
@@ -35,39 +64,11 @@
       font-size: 1.1rem;
       box-shadow: 0 5px 15px rgba(82, 67, 227, 0.3);
       transition: 0.2s;
-      margin-top: 1rem;
+      margin-top: 20px;
     }
 
     button:hover {
       transform: scale(1.05);
-    }
-
-    /* Move ElevenLabs popup to top center */
-    iframe[src*="elevenlabs.com/widget"],
-    div[id*="elevenlabs-widget-container"] {
-      position: fixed !important;
-      top: 5% !important;
-      left: 50% !important;
-      transform: translateX(-50%) !important;
-      z-index: 10000 !important;
-      width: 420px !important;
-      height: 480px !important;
-      border-radius: 20px !important;
-      box-shadow: 0 8px 25px rgba(0, 0, 0, 0.25) !important;
-    }
-
-    /* Hide ElevenLabs default floating button */
-    iframe[src*="elevenlabs.com/widget/button"],
-    div[id*="elevenlabs-widget-button"],
-    [class*="elevenlabs-widget-button"] {
-      display: none !important;
-      visibility: hidden !important;
-    }
-
-    /* Remove connecting dialog */
-    .popup-overlay,
-    .popup-box {
-      display: none !important;
     }
   </style>
 </head>
@@ -80,11 +81,9 @@
 
   <script>
     function startCall() {
-      // Remove previous widget if any
       const oldWidget = document.querySelector('elevenlabs-convai');
       if (oldWidget) oldWidget.remove();
 
-      // Create new widget instance
       const widget = document.createElement('elevenlabs-convai');
       widget.setAttribute('agent-id', 'agent_0701k7696sj6fkwr8x3rsea44fj3');
       document.body.appendChild(widget);
@@ -93,6 +92,3 @@
 
 </body>
 </html>
-
-
-
