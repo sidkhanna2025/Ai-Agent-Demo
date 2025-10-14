@@ -56,19 +56,25 @@
     .tag.inbound { top: 25%; right: 10%; color: #3b82f6; }
     .tag.outbound { bottom: 15%; left: 10%; color: #10b981; }
 
-    .bot-container {
-      background: #fff;
-      padding: 2rem 2.5rem;
-      border-radius: 20px;
-      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
-      text-align: center;
-      width: 400px;
-      max-width: 90%;
-      position: relative;
-      z-index: 1;
+    /* Start Call Button */
+    .start-call-btn {
+      background: var(--primary);
+      color: white;
+      border: none;
+      padding: 1rem 2rem;
+      font-size: 1.1rem;
+      border-radius: 30px;
+      cursor: pointer;
+      box-shadow: 0 8px 20px rgba(82, 67, 227, 0.3);
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
     }
 
-    /* Overlay background for popup */
+    .start-call-btn:hover {
+      transform: scale(1.05);
+      box-shadow: 0 10px 25px rgba(82, 67, 227, 0.4);
+    }
+
+    /* Popup overlay and box */
     .popup-overlay {
       position: fixed;
       top: 0;
@@ -76,7 +82,7 @@
       width: 100%;
       height: 100%;
       background: rgba(0,0,0,0.4);
-      display: flex;
+      display: none;
       justify-content: center;
       align-items: center;
       z-index: 10;
@@ -116,8 +122,8 @@
 
     @media (max-width: 480px) {
       h1 { font-size: 2.2rem; }
-      .bot-container { width: 90%; padding: 1.5rem; }
       .popup-box { width: 90%; }
+      .start-call-btn { width: 80%; font-size: 1rem; }
     }
   </style>
 </head>
@@ -128,7 +134,8 @@
   <div class="tag outbound">Outbound Calls</div>
 
   <h1>Welcome to <span>Demo Call</span></h1>
-  <div class="bot-container"></div>
+
+  <button class="start-call-btn" onclick="openPopup()">Start a Call</button>
 
   <!-- Popup Container -->
   <div class="popup-overlay" id="popup">
@@ -141,17 +148,14 @@
   <script src="https://unpkg.com/@elevenlabs/convai-widget-embed" async type="text/javascript"></script>
 
   <script>
+    function openPopup() {
+      document.getElementById("popup").style.display = "flex";
+    }
+
     function closePopup() {
       document.getElementById("popup").style.display = "none";
     }
-
-    // optional: auto open after delay (e.g., 1 sec)
-    window.onload = function() {
-      const popup = document.getElementById("popup");
-      popup.style.display = "flex";
-    };
   </script>
 
 </body>
 </html>
-
