@@ -40,61 +40,30 @@
       transform: scale(1.05);
     }
 
-    /* Popup overlay */
-    .popup-overlay {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background: rgba(0, 0, 0, 0.45);
-      display: none;
-      justify-content: center;
-      align-items: center;
-      z-index: 1000;
-    }
-
-    /* Popup box */
-    .popup-box {
-      position: relative;
-      background: white;
-      border-radius: 20px;
-      box-shadow: 0 8px 25px rgba(0,0,0,0.25);
-      padding: 25px;
-      width: 420px;
-      max-width: 90%;
-      text-align: center;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      animation: scaleIn 0.3s ease;
-    }
-
-    @keyframes scaleIn {
-      from { transform: scale(0.9); opacity: 0; }
-      to { transform: scale(1); opacity: 1; }
-    }
-
-    .close-btn {
-      position: absolute;
-      top: 10px;
-      right: 15px;
-      background: none;
-      border: none;
-      font-size: 1.5rem;
-      cursor: pointer;
-      color: #888;
-    }
-
-    elevenlabs-convai {
-      width: 100%;
-      height: 400px;
-      display: none;
-    }
-
-    /* Hide ElevenLabs’ default floating widget */
+    /* Reposition ElevenLabs widget */
     iframe[src*="elevenlabs.com/widget"],
     div[id*="elevenlabs-widget-container"] {
+      position: fixed !important;
+      top: 50% !important;
+      left: 50% !important;
+      transform: translate(-50%, -50%) !important;
+      z-index: 10000 !important;
+      width: 450px !important;
+      height: 500px !important;
+      border-radius: 20px !important;
+      box-shadow: 0 8px 25px rgba(0, 0, 0, 0.25) !important;
+    }
+
+    /* Remove small popup (connecting dialog) if any */
+    .popup-overlay,
+    .popup-box {
+      display: none !important;
+    }
+
+    /* Hide floating button and default “Need help?” widget */
+    iframe[src*="elevenlabs.com/widget/button"],
+    div[id*="elevenlabs-widget-button"],
+    [class*="elevenlabs-widget-button"] {
       display: none !important;
       visibility: hidden !important;
     }
@@ -102,31 +71,24 @@
 </head>
 <body>
 
-  <h1>Welcome to <span style="color:#5243e3;">AI Call Demo</span></h1>
-  <button onclick="openPopup()">Start a Call</button>
-
-  <div class="popup-overlay" id="popup">
-    <div class="popup-box">
-      <button class="close-btn" onclick="closePopup()">×</button>
-      <p><strong>Connecting to AI Voice Agent...</strong></p>
-      <elevenlabs-convai id="agentBox" agent-id="agent_0701k7696sj6fkwr8x3rsea44fj3"></elevenlabs-convai>
-    </div>
-  </div>
+  <h1>Welcome to <span style="color:#5243e3;">Demo Call</span></h1>
+  <button onclick="startCall()">Start a Call</button>
 
   <script src="https://unpkg.com/@elevenlabs/convai-widget-embed" async></script>
 
   <script>
-    function openPopup() {
-      document.getElementById("popup").style.display = "flex";
-      document.getElementById("agentBox").style.display = "block";
-    }
+    function startCall() {
+      // Force ElevenLabs widget to open in the middle
+      const widget = document.querySelector('elevenlabs-convai');
+      if (widget) widget.remove();
 
-    function closePopup() {
-      document.getElementById("popup").style.display = "none";
-      document.getElementById("agentBox").style.display = "none";
+      const newWidget = document.createElement('elevenlabs-convai');
+      newWidget.setAttribute('agent-id', 'agent_0701k7696sj6fkwr8x3rsea44fj3');
+      document.body.appendChild(newWidget);
     }
   </script>
 
 </body>
 </html>
+
 
