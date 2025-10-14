@@ -41,6 +41,7 @@
       -webkit-text-fill-color: transparent;
     }
 
+    /* Floating labels */
     .tag {
       position: absolute;
       font-size: 0.9rem;
@@ -63,22 +64,60 @@
       text-align: center;
       width: 400px;
       max-width: 90%;
+      position: relative;
+      z-index: 1;
     }
 
-    /* Custom style to keep widget inline instead of bottom right */
-    elevenlabs-convai {
-      all: unset;
-      display: block;
-      margin: 0 auto;
+    /* Overlay background for popup */
+    .popup-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0,0,0,0.4);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      z-index: 10;
+    }
+
+    .popup-box {
+      background: white;
+      border-radius: 20px;
+      box-shadow: 0 8px 25px rgba(0,0,0,0.2);
+      padding: 20px;
+      width: 400px;
+      max-width: 90%;
+      text-align: center;
+      position: relative;
+      animation: fadeIn 0.5s ease;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: scale(0.95); }
+      to { opacity: 1; transform: scale(1); }
+    }
+
+    .close-btn {
+      position: absolute;
+      top: 8px;
+      right: 12px;
+      background: none;
+      border: none;
+      font-size: 1.5rem;
+      cursor: pointer;
+      color: #999;
+    }
+
+    iframe[src*="elevenlabs"] {
       position: static !important;
-      bottom: auto !important;
-      right: auto !important;
-      transform: none !important;
     }
 
     @media (max-width: 480px) {
       h1 { font-size: 2.2rem; }
       .bot-container { width: 90%; padding: 1.5rem; }
+      .popup-box { width: 90%; }
     }
   </style>
 </head>
@@ -89,12 +128,29 @@
   <div class="tag outbound">Outbound Calls</div>
 
   <h1>Welcome to <span>Demo Call</span></h1>
+  <div class="bot-container"></div>
 
-  <div class="bot-container">
-    <!-- ElevenLabs AI Voice Agent -->
-    <elevenlabs-convai agent-id="agent_0701k7696sj6fkwr8x3rsea44fj3"></elevenlabs-convai>
-    <script src="https://unpkg.com/@elevenlabs/convai-widget-embed" async type="text/javascript"></script>
+  <!-- Popup Container -->
+  <div class="popup-overlay" id="popup">
+    <div class="popup-box">
+      <button class="close-btn" onclick="closePopup()">×</button>
+      <elevenlabs-convai agent-id="agent_0701k7696sj6fkwr8x3rsea44fj3"></elevenlabs-convai>
+    </div>
   </div>
+
+  <script src="https://unpkg.com/@elevenlabs/convai-widget-embed" async type="text/javascript"></script>
+
+  <script>
+    function closePopup() {
+      document.getElementById("popup").style.display = "none";
+    }
+
+    // optional: auto open after delay (e.g., 1 sec)
+    window.onload = function() {
+      const popup = document.getElementById("popup");
+      popup.style.display = "flex";
+    };
+  </script>
 
 </body>
 </html>
