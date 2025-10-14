@@ -15,43 +15,13 @@
       flex-direction: column;
       align-items: center;
       justify-content: flex-start;
-      overflow: hidden;
       position: relative;
     }
 
-    /* Move heading to top */
     h1 {
       font-size: 2.5rem;
       color: #222;
       margin-top: 50px;
-    }
-
-    /* ElevenLabs popup centered */
-    iframe[src*="elevenlabs.com/widget"],
-    div[id*="elevenlabs-widget-container"] {
-      position: fixed !important;
-      top: 50% !important;
-      left: 50% !important;
-      transform: translate(-50%, -50%) !important;
-      z-index: 10000 !important;
-      width: 420px !important;
-      height: 480px !important;
-      border-radius: 20px !important;
-      box-shadow: 0 8px 25px rgba(0, 0, 0, 0.25) !important;
-    }
-
-    /* Hide default floating button */
-    iframe[src*="elevenlabs.com/widget/button"],
-    div[id*="elevenlabs-widget-button"],
-    [class*="elevenlabs-widget-button"] {
-      display: none !important;
-      visibility: hidden !important;
-    }
-
-    /* Remove old connecting popup */
-    .popup-overlay,
-    .popup-box {
-      display: none !important;
     }
 
     button {
@@ -81,14 +51,36 @@
 
   <script>
     function startCall() {
+      // Remove any existing widget
       const oldWidget = document.querySelector('elevenlabs-convai');
       if (oldWidget) oldWidget.remove();
 
+      // Add the ElevenLabs widget
       const widget = document.createElement('elevenlabs-convai');
       widget.setAttribute('agent-id', 'agent_0701k7696sj6fkwr8x3rsea44fj3');
       document.body.appendChild(widget);
+
+      // Wait a moment for it to load, then override its style
+      const observer = new MutationObserver(() => {
+        const widgetFrame = document.querySelector('iframe[src*="elevenlabs"]');
+        if (widgetFrame) {
+          widgetFrame.style.position = "fixed";
+          widgetFrame.style.top = "50%";
+          widgetFrame.style.left = "50%";
+          widgetFrame.style.transform = "translate(-50%, -50%)";
+          widgetFrame.style.width = "420px";
+          widgetFrame.style.height = "480px";
+          widgetFrame.style.borderRadius = "20px";
+          widgetFrame.style.zIndex = "9999";
+          widgetFrame.style.boxShadow = "0 8px 25px rgba(0,0,0,0.25)";
+          observer.disconnect();
+        }
+      });
+
+      observer.observe(document.body, { childList: true, subtree: true });
     }
   </script>
 
 </body>
 </html>
+
