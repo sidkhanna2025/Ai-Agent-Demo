@@ -19,13 +19,32 @@
     body {
       margin: 0;
       font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
-      background: linear-gradient(135deg, #f6f6ff, #e7e9ff);
-      height: 100vh;
+      min-height: 100vh;
       display: flex;
       flex-direction: column;
       align-items: center;
       justify-content: center;
       color: var(--text-dark);
+      background: radial-gradient(
+        circle at 50% 30%,
+        rgba(180, 185, 255, 0.35) 0%,
+        rgba(220, 220, 255, 0.65) 40%,
+        rgba(255, 255, 255, 1) 100%
+      );
+      background-attachment: fixed;
+      animation: bgPulse 8s ease-in-out infinite;
+    }
+
+    @keyframes bgPulse {
+      0% {
+        background-size: 100%;
+      }
+      50% {
+        background-size: 105%;
+      }
+      100% {
+        background-size: 100%;
+      }
     }
 
     h1 {
@@ -64,7 +83,7 @@
       color: var(--text-muted);
     }
 
-    /* Modal */
+    /* Modal Styling */
     #chatModal {
       position: fixed;
       inset: 0;
@@ -84,7 +103,6 @@
       pointer-events: auto;
     }
 
-    /* Center the widget perfectly */
     #chatModal elevenlabs-convai {
       width: 360px;
       height: 500px;
@@ -93,7 +111,6 @@
       overflow: hidden;
     }
 
-    /* Floating close button */
     .modal-close {
       position: absolute;
       top: 20px;
@@ -111,9 +128,8 @@
   <h1>Welcome to <span>Demo Call</span></h1>
   <button class="start-btn" id="chatButton">Start a Call</button>
 
-  <footer>Powered by Ison Xperiences </footer>
+  <footer>Powered by Ison Xperiences</footer>
 
-  <!-- Modal (centered widget, no white box) -->
   <div id="chatModal">
     <button class="modal-close" id="modalClose" aria-label="Close">✕</button>
     <elevenlabs-convai
@@ -141,6 +157,7 @@
   </script>
 </body>
 </html>
+
 
 
 
