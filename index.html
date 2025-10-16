@@ -19,7 +19,14 @@
     body {
       margin: 0;
       font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
-      background: linear-gradient(135deg, #f6f6ff, #e7e9ff);
+      background: radial-gradient(
+        circle at center,
+        rgba(209, 213, 255, 0.25) 0%,
+        rgba(255, 255, 255, 0.9) 60%,
+        rgba(255, 255, 255, 1) 100%
+      );
+      background-repeat: no-repeat;
+      background-attachment: fixed;
       height: 100vh;
       display: flex;
       flex-direction: column;
@@ -64,7 +71,6 @@
       color: var(--text-muted);
     }
 
-    /* Modal */
     #chatModal {
       position: fixed;
       inset: 0;
@@ -84,7 +90,6 @@
       pointer-events: auto;
     }
 
-    /* Center the widget perfectly */
     #chatModal elevenlabs-convai {
       width: 360px;
       height: 500px;
@@ -93,7 +98,6 @@
       overflow: hidden;
     }
 
-    /* Floating close button */
     .modal-close {
       position: absolute;
       top: 20px;
@@ -107,39 +111,8 @@
   </style>
 </head>
 
-<body>
-  <h1>Welcome to <span>Demo Call</span></h1>
-  <button class="start-btn" id="chatButton">Start a Call</button>
+<bod
 
-  <footer>Powered by Ison Xperiences </footer>
 
-  <!-- Modal (centered widget, no white box) -->
-  <div id="chatModal">
-    <button class="modal-close" id="modalClose" aria-label="Close">✕</button>
-    <elevenlabs-convai
-      agent-id="agent_0701k7696sj6fkwr8x3rsea44fj3"
-      style="width:100%; height:100%; display:block;">
-    </elevenlabs-convai>
-  </div>
-
-  <script>
-    const chatBtn = document.getElementById('chatButton');
-    const chatModal = document.getElementById('chatModal');
-    const modalClose = document.getElementById('modalClose');
-
-    chatBtn.addEventListener('click', () => {
-      chatModal.classList.add('open');
-    });
-
-    modalClose.addEventListener('click', () => {
-      chatModal.classList.remove('open');
-    });
-
-    chatModal.addEventListener('click', (e) => {
-      if (e.target === chatModal) chatModal.classList.remove('open');
-    });
-  </script>
-</body>
-</html>
 
 
